@@ -1,0 +1,23 @@
+function FindProxyForURL(url, host) {
+
+    // Local network traffic
+    if (isInNet(host, "192.168.0.0", "255.255.255.0")) {
+        return "DIRECT";
+    }
+
+    // Traffic for website1.com
+    if (dnsDomainIs(host, "google.com")) {
+        return "PROXY 192.168.0.250:1080";
+    }
+    if (shExpMatch(host, "*.openai.com|*.google.com|*.twitter.com")){
+        return "PROXY 192.168.0.250:1080";
+    }
+
+    // Traffic for website2.com
+    if (dnsDomainIs(host, "website2.com")) {
+        return "PROXY 192.168.0.250:1080";
+    }
+
+    // All other traffic
+    return "DIRECT";
+}
